@@ -12,7 +12,7 @@
 - Testing: Users can upload images through a web interface to get real-time predictions.
 
 ## 1.Data Preparation
-### 1. Get Data: KaggleAPI
+### 1.1. Get Data: KaggleAPI
 ```bash
 #make sure to change username and dataset name
 kaggle datasets download -d vitaminc/cigarette-smoker-detection
@@ -20,14 +20,14 @@ kaggle datasets download -d vitaminc/cigarette-smoker-detection
 ```bash
 unzip cigarette-smoker-detection.zip -d dataset
 ```
-###  1.2.Organize the Dataset:
+###  1.2. Organize the Dataset:
 Ensure your dataset has the following structure:
 ```bash
 dataset/
 ├── smoking/
 └── notsmoking/
 ```
-### 1.3.Preprocess the Data:
+### 1.3. Preprocess the Data:
 - Resize & Normalize:
   ```python
   from tensorflow.keras.preprocessing.image import ImageDataGenerator
@@ -40,7 +40,7 @@ dataset/
       class_mode='binary'
   )
   ```
--  Split Data:
+- Split Data:
     ```python
     from sklearn.model_selection import train_test_split
     image_paths, labels = # Your image paths and labels
@@ -48,7 +48,7 @@ dataset/
     image_paths, labels, test_size=0.2, random_state=42
     )
     ```
-### 1.4.Data Augmentation:
+### 1.4. Data Augmentation:
 ```python
 datagen = ImageDataGenerator(
     rescale=1./255,
@@ -61,7 +61,7 @@ datagen = ImageDataGenerator(
     fill_mode='nearest'
 )
 ```
-### 1.5.Create Data Loaders:
+### 1.5. Create Data Loaders:
 ```python
 train_generator = datagen.flow_from_directory(
     'dataset/train/',
@@ -82,7 +82,7 @@ from tensorflow.keras.layers import Dense, Flatten
 base_model = VGG16(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
 
 ```
-### 2.2.Add Custom Layers:
+### 2.2. Add Custom Layers:
 Add classification layers on top of the base model:
 ```python
 x = base_model.output
@@ -93,12 +93,12 @@ predictions = Dense(1, activation='sigmoid')(x)
 model = Model(inputs=base_model.input, outputs=predictions)
 
 ```
-### 2.3.Compile the Model:
+### 2.3. Compile the Model:
 Compile the model with an optimizer, loss function, and metrics:
 ```python
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 ```
-### 2.4.Train the Model:
+### 2.4. Train the Model:
 Train the model using the training and validation data:
 ```python
 history = model.fit(
@@ -107,7 +107,7 @@ history = model.fit(
     validation_data=val_generator
 )
 ```
-### 2.5.Save the Model:
+### 2.5. Save the Model:
 Save the trained model for future use:
 ```python
 model.save('smoke_detection_model.h5')
@@ -169,7 +169,7 @@ docker run -d -p 5000:5000 smoke-detector-app
 ```
 
 ## 5. Exposing localhost:
-Exposing local host so you can worik with team or make your client test the project
+Exposing local host so you can work with team or make your client test the project
 ```bash
 ngrok http 5000
 ```
@@ -178,18 +178,10 @@ ngrok http 5000
   <img src="test.gif" alt="image" width="500" />
 </div>
 
-open localhost or ngrok url to test your project
+Open localhost or ngrok url to test your project
 ```bash
 http://localhost:5000/
 ```
 
 # Make Sure depencies are correctly installed
-# [RECOMMENDED] Create a new conda env to avoid dependencies conflict with your main env
-
-
-
-
-
-
-
-   
+# [RECOMMENDED] Create a new conda env to avoid dependencies conflict with your main env   
